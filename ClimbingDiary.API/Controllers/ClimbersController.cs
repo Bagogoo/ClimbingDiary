@@ -28,7 +28,6 @@ namespace ClimbingDiary.API.Controllers
         public ActionResult<IEnumerable<ClimberDto>> GetClimbers()
         {
             var climberFromRepo = _climbingDiaryRepository.GetClimbers();
-            var climbers = new List<ClimberDto>();
             
             return Ok(_mapper.Map<IEnumerable<ClimberDto>>(climberFromRepo));
         }

@@ -10,35 +10,28 @@ using System.Threading.Tasks;
 namespace ClimbingDiary.API.Controllers
 {
     [ApiController]
-    [Route("api/sectors")]
-    public class SectorsController : ControllerBase
+    [Route("api/sectors/{sectorId}/routes")]
+    public class RoutesController: ControllerBase
     {
         private readonly IClimbingDiaryRepository _climbingDiaryRepository;
         private readonly IMapper _mapper;
 
-        public SectorsController(IClimbingDiaryRepository climbingDiaryRepository, IMapper mapper)
+        public RoutesController(IClimbingDiaryRepository climbingDiaryRepository, IMapper mapper)
         {
             _climbingDiaryRepository = climbingDiaryRepository ??
                 throw new ArgumentNullException(nameof(climbingDiaryRepository));
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
         }
-        [HttpGet()]
-        public ActionResult<IEnumerable<SectorDto>> GetSectors()
+        [HttpGet]
+        public ActionResult<IEnumerable<RouteDto>> GetRoutesFromSector(Guid sectorId)
         {
-            var sectorsFromRepo = _climbingDiaryRepository.GetSectors();
-            var sectors = new List<SectorDto>();
-            return Ok(_mapper.Map<IEnumerable<SectorDto>>(sectorsFromRepo));
-        }
-        [HttpGet("{sectorId}")]
-        public IActionResult GetSector(Guid sectorId)
-        {
-            var sectorFromRepo = _climbingDiaryRepository.GetSector(sectorId);
-            if (sectorFromRepo==null)
+            if (!_climbingDiaryRepository.SectorExists(sectorId))
             {
                 return NotFound();
             }
-            return Ok(sectorFromRepo);
+            var routesForSectorRepo = _climbingDiaryRepository.GetRoutes(sectorId);
+            return Ok(_mapper.Map<IEnumerable<RouteDto>>(routesForSectorRepo));
         }
     }
 }
