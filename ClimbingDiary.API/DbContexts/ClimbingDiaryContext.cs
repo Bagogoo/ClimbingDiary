@@ -56,6 +56,16 @@ namespace ClimbingDiary.API.DbContexts
                     Description="Very nice Keepo"
                     
                 },
+                 new Route
+                 {
+                     Id = Guid.Parse("29b84dca-3d64-4987-be20-52f5f3f4ba19"),
+                     SectorId = Guid.Parse("17612c45-d23a-4f71-9bef-c6fb0c0a6a0e"),
+                     Name = "Przez komin",
+                     Author = "Jakistam",
+                     Grade = "VI+",
+                     Description = "Ładny komin"
+
+                 },
                 new Route
                 {
                     Id = Guid.Parse("39b94dca-3d64-4987-be20-52f5f3f4ba19"),
@@ -77,7 +87,7 @@ namespace ClimbingDiary.API.DbContexts
                     FirstName="Michal",
                     SecondName="Iksde",
                     DateOfBirth=new DateTime(1997,01,01),
-                    AboutMe="Eluwina"
+                    Description="Eluwina"
                 }
                 );
             base.OnModelCreating(modelBuilder);

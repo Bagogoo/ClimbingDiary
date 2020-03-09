@@ -11,6 +11,7 @@ namespace ClimbingDiary.API.Profiles
         public RoutesProfile()
         {
             CreateMap<Entities.Route, Models.RouteDto>();
+            CreateMap<Models.RouteForCreationDto, Entities.Route>();
         }
     }
 }

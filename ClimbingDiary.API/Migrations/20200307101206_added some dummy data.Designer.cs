@@ -4,14 +4,16 @@ using ClimbingDiary.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ClimbingDiary.API.Migrations
 {
     [DbContext(typeof(ClimbingDiaryContext))]
-    partial class ClimbingDiaryContextModelSnapshot : ModelSnapshot
+    [Migration("20200307101206_added some dummy data")]
+    partial class addedsomedummydata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,12 +27,12 @@ namespace ClimbingDiary.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("DateOfBirth")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Description")
+                    b.Property<string>("AboutMe")
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
+
+                    b.Property<DateTimeOffset>("DateOfBirth")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -50,8 +52,8 @@ namespace ClimbingDiary.API.Migrations
                         new
                         {
                             Id = new Guid("59b94dca-3d64-4987-be20-52f5f3f4ba19"),
+                            AboutMe = "Eluwina",
                             DateOfBirth = new DateTimeOffset(new DateTime(1997, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
-                            Description = "Eluwina",
                             FirstName = "Michal",
                             SecondName = "Iksde"
                         });

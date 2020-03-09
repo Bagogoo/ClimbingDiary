@@ -1,5 +1,6 @@
 ﻿using ClimbingDiary.API.DbContexts;
 using ClimbingDiary.API.Entities;
+using ClimbingDiary.API.ResourceParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,7 +95,28 @@ namespace ClimbingDiary.API.Services
         {
             return _context.Sectors.ToList<Sector>();
         }
-
+       public IEnumerable<Sector> GetSectors(SectorsResourceParameters sectorsResourceParameters)
+        {
+            if (string.IsNullOrWhiteSpace(sectorsResourceParameters.Category)
+                && string.IsNullOrWhiteSpace(sectorsResourceParameters.SearchQuery))
+            {
+                return GetSectors();
+            }
+            var collection = _context.Sectors as IQueryable<Sector>;
+            
+            if (!string.IsNullOrWhiteSpace(sectorsResourceParameters.Category))
+            {
+               var category = sectorsResourceParameters.Category.Trim();
+                collection = collection.Where(s => s.Category == category);
+            }
+            if (!string.IsNullOrWhiteSpace(sectorsResourceParameters.SearchQuery))
+            {
+               var searchQuery = sectorsResourceParameters.SearchQuery.Trim();
+                collection = collection.Where(s => s.Category.Contains(searchQuery)
+                  || s.Name.Contains(searchQuery));
+            }
+            return collection.ToList();
+        }
         public IEnumerable<Sector> GetSectors(IEnumerable<Guid> sectorIds)
         {
             if (sectorIds == null)
@@ -122,21 +144,24 @@ namespace ClimbingDiary.API.Services
         {
             // no code in this implementation
         }
-        public void GetClimber(Guid climberId)
+        public Climber GetClimber(Guid climberId)
         {
             if (climberId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(climberId));
             }
-            _context.Climbers.FirstOrDefault(c => c.Id == climberId);
+          return _context.Climbers.FirstOrDefault(c => c.Id == climberId);
         }
 
+    
         public void AddClimber(Climber climber)
         {
             if (climber == null)
             {
                 throw new ArgumentNullException(nameof(climber));
             }
+             climber.Id = Guid.NewGuid();
+
             _context.Climbers.Add(climber);
         }
 

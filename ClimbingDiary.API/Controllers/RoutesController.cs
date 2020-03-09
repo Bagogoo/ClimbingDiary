@@ -30,8 +30,36 @@ namespace ClimbingDiary.API.Controllers
             {
                 return NotFound();
             }
-            var routesForSectorRepo = _climbingDiaryRepository.GetRoutes(sectorId);
-            return Ok(_mapper.Map<IEnumerable<RouteDto>>(routesForSectorRepo));
+            var routesFromSectorRepo = _climbingDiaryRepository.GetRoutes(sectorId);
+            return Ok(_mapper.Map<IEnumerable<RouteDto>>(routesFromSectorRepo));
+        }
+        [HttpGet("{routeId}",Name = "GetRouteFromSector")]
+        public ActionResult<RouteDto> GetRouteFromSector(Guid sectorId, Guid routeId)
+        {
+            if (!_climbingDiaryRepository.SectorExists(sectorId))
+            {
+                return NotFound();
+            }
+            var routeFromSectorRepo = _climbingDiaryRepository.GetRoute(sectorId,routeId);
+            if (routeFromSectorRepo == null)
+            {
+                return NotFound();
+            }
+            return Ok(_mapper.Map<RouteDto>(routeFromSectorRepo));
+        }
+        [HttpPost]
+        public ActionResult<RouteDto> CreateRouteFromSector(Guid sectorId, RouteForCreationDto route)
+        {
+            if (!_climbingDiaryRepository.SectorExists(sectorId))
+            {
+                return NotFound();
+            }
+            var routeEntity = _mapper.Map<Entities.Route>(route);
+            _climbingDiaryRepository.AddRoute(sectorId, routeEntity);
+            _climbingDiaryRepository.Save();
+
+            var routeToReturn = _mapper.Map<RouteDto>(routeEntity);
+            return CreatedAtRoute("GetRouteFromSector", new { sectorId = sectorId, routeId = routeToReturn.Id }, routeToReturn);
         }
     }
 }

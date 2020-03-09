@@ -18,13 +18,13 @@ namespace ClimbingDiary.API.Profiles
                 .ForMember
                 (
                 dest => dest.Age,
-                opt => opt.MapFrom(src => src.DateOfBirth.GetCurrentAge()))
-                .ForMember
-                (
-                dest => dest.Description,
-                opt => opt.MapFrom(src => src.AboutMe));
+                opt => opt.MapFrom(src => src.DateOfBirth.GetCurrentAge()));
+
+
+
+            CreateMap<Models.ClimberForCreationDto, Entities.Climber>();
                 
-              
+                
         }
     }
 }

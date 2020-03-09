@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace ClimbingDiary.API
 {
@@ -49,6 +50,18 @@ namespace ClimbingDiary.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else 
+            {
+                app.UseExceptionHandler(appBuilder =>
+                {
+                    appBuilder.Run(async context =>
+                    { 
+                    context.Response.StatusCode = 500;
+                        await context.Response.WriteAsync("An unexpected fault happened.");
+                    });
+
+                });
             }
 
             app.UseRouting();

@@ -11,6 +11,8 @@ namespace ClimbingDiary.API.Profiles
         public SectorsProfile()
         {
             CreateMap<Entities.Sector, Models.SectorDto>();
+
+            CreateMap<Models.SectorForCreationDto, Entities.Sector>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ClimbingDiary.API.Entities;
+using ClimbingDiary.API.ResourceParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,12 @@ namespace ClimbingDiary.API.Services
         IEnumerable<Sector> GetSectors();
         Sector GetSector(Guid sectorId);
         IEnumerable<Sector> GetSectors(IEnumerable<Guid> sectorIds);
+        IEnumerable<Sector> GetSectors(SectorsResourceParameters sectorResourceParameters);
+        Climber GetClimber(Guid climberId);
         void AddSector(Sector sector);
         void DeleteSector(Sector sector);
         void UpdateSector(Sector sector);
-        void GetClimber(Guid climberId);
+        
         void AddClimber(Climber climber);
         void UpdateClimber(Climber climber);
         IEnumerable<Climber> GetClimbers();
